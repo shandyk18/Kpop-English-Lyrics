@@ -2,8 +2,6 @@ from requests import get
 from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
-from langdetect import detect
-from collections import OrderedDict
 import string
 import re
 
@@ -33,24 +31,16 @@ def isGoodResponse(resp):
 			and contentType.find('html') > -1)
 
 def findLyrics(html):
+	"""
+	Returns a dict of English lyrics and their frequencies
+	"""
 	lyricHTML = html.find('div', class_='box-body')
 	lyricText = lyricHTML.get_text()
-	resultMap = {}
+	resultDict = {}
 	for word in lyricText.split():
-		#print(word)
 		enWord = re.sub(r'[^\w]', '', word.lower())
-		if enWord.isalpha(): 
-			if enWord[0] in string.ascii_letters:
-				if enWord not in resultMap:
-					resultMap[enWord] = 0
-				resultMap[enWord] = resultMap[enWord] + 1
-	return OrderedDict(sorted(resultMap.items()))
-
-"""
-Main Program
-"""
-raw_html = simpleGet('https://www.lyrics.co.kr/?p=514420')
-html = BeautifulSoup(raw_html, 'html.parser')
-resultMap = findLyrics(html)
-for word in resultMap:
-	print('word: {} appearances: {}'.format(word, resultMap[word]))
+		if enWord.isalpha() and enWord[0] in string.ascii_letters:
+				if enWord not in resultDict:
+					resultDict[enWord] = 0
+				resultDict[enWord] = resultDict[enWord] + 1
+	return resultDict
