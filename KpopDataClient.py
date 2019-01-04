@@ -2,10 +2,19 @@ from KpopData import *
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
+def fileReader(fileName):
+	fileObj = open(fileName, 'r')
+	links = []
+	for line in fileObj:
+		links.append(line)
+	fileObj.close()
+	return links
+
+
 """
 Main Program
 """
-links = ['https://www.lyrics.co.kr/?p=514420', 'https://www.lyrics.co.kr/?p=225438']
+links = fileReader('links.txt') 
 
 fullDict = {}
 
