@@ -35,17 +35,15 @@ def findLyrics(html):
 	Returns a dict of English lyrics and their frequencies
 	"""
 	lyricHTML = html.find('div', class_='lyrics')
-	lyricText = lyricHTML.get_text()
-	resultDict = {}
-	for word in lyricText.split():
-		enWord = re.sub(r'[^\w]', '', word.lower())
-		if enWord.isalpha():
-			if enWord[0] in string.ascii_letters:
-				if enWord not in resultDict:
-					resultDict[enWord] = 0
-				resultDict[enWord] = resultDict[enWord] + 1
-		# if enWord.isalpha() and enWord[0] in string.ascii_letters:
-		# 		if enWord not in resultDict:
-		# 			resultDict[enWord] = 0
-		# 		resultDict[enWord] = resultDict[enWord] + 1
-	return resultDict
+	lyric_text = lyricHTML.get_text()
+	non_lyric_list = ["verse", "pre-chorus", "chorus", "bridge", "g-dragon", "t.o.p", "taeyang", "daesung", "seungri",
+					  "chrous", "prechrous"]
+	result_dict = {}
+	for word in lyric_text.split():
+		en_word = re.sub(r'[^\w]', '', word.lower())
+		if en_word.isalpha() and en_word not in non_lyric_list:
+			if en_word[0] in string.ascii_letters:
+				if en_word not in result_dict:
+					result_dict[en_word] = 0
+				result_dict[en_word] = result_dict[en_word] + 1
+	return result_dict
