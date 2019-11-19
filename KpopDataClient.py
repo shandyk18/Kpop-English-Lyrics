@@ -27,7 +27,7 @@ for link in links:
 		fullDict[word] = fullDict[word] + songDict[word]
 
 # a dictionary in descending order by word frequency
-fullDict = OrderedDict(sorted(fullDict.items(), key = lambda i: i[1], reverse = True))
+fullDict = OrderedDict(sorted(fullDict.items(), key=lambda i: i[1], reverse=True))
 
 for word in fullDict:
 	print('{} - {}'.format(word, fullDict[word]))
